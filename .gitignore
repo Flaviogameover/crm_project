@@ -13,6 +13,7 @@
 
 .env
 todo
+dummydata.js
 
 # misc
 .DS_Store
