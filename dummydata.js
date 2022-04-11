@@ -1,0 +1,38 @@
+const tickets = [
+    {
+        category: "Q1 2022",
+        color: "red",
+        title: "NFT Safety 101 Video",
+        owner: "Ania Kubow",
+        avatar: "https://randomuser.me/api/portraits/women/76.jpg",
+        status: "done",
+        priority: 5,
+        progress: 100,
+        description:
+            "Make a video showcasing how to work with NFTs safely, including how to know if one is not genuine.",
+        timestamp: "2022-04-04T12:00:00+0000",
+    },
+    {
+        category: "Q1 2022",
+        title: "Build and sell AI",
+        owner: "Ania Kubow",
+        avatar: "https://randomuser.me/api/portraits/women/76.jpg",
+        status: "working on it",
+        priority: 2,
+        progress: 70,
+        description: "Make a video about AI",
+        timestamp: "2022-03-13T07:36:17+0000",
+    },
+    {
+        category: "Q2 2022",
+        color: "blue",
+        title: "Build a bot",
+        owner: "Ania Kubow",
+        avatar: "https://randomuser.me/api/portraits/women/76.jpg",
+        status: "stuck",
+        priority: 3,
+        progress: 10,
+        description: "Make a video about making a bot",
+        timestamp: "2022-03-13T07:36:17+0000",
+    },
+];

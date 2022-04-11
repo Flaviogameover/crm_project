@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+//import react router dom
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+//import dashboard and TicketPage
+import { Dashboard } from "./pages/Dashboard";
+import { TicketPage } from "./pages/TicketPage";
+import  CategoriesContext  from "./context";
+import {useState, useEffect, useContext} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { Nav } from "./components/Nav";
+
+const App = () => {
+
+    const [categories, setCategories] = useState(null);
+    const value = {categories, setCategories};
+
+    return (
+        <div className="app">
+            <CategoriesContext.Provider value={value} >
+                <Router>
+                    <Nav />
+                    <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/ticket" element={<TicketPage />} />
+                        <Route
+                            path="/ticket/:id"
+                            element={<TicketPage editMode={true} />}
+                        />
+                    </Routes>
+                </Router>
+            </CategoriesContext.Provider>
+        </div>
+    );
+};
 
 export default App;
