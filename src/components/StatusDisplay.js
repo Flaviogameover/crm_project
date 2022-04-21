@@ -19,8 +19,8 @@ export const StatusDisplay = ({ status }) => {
     };
 
     return (
-        <div className="status-display" style={{backgroundColor: getColor(status)}}>
+        <td className="status-display" style={{backgroundColor: getColor(status)}}>
             {status}
-        </div>
+        </td>
     );
 };

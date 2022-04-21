@@ -10,8 +10,9 @@ export const DeleteBlock = ({documentId}) => {
     };
 
     return (
-        <div className="delete-block">
+        <td className="delete-block">
             <div className="delete-icon" onClick={deleteTicket}>X</div>
-        </div>
+        </td>
     );
 };
+

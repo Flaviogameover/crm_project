@@ -3,17 +3,22 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CategoriesContext from "../context";
 import funcs from "../functions/requests";
+import { useCookies } from "react-cookie";
 
 export const TicketPage = ({ editMode }) => {
     const { categories, setCategories } = useContext(CategoriesContext);
+    const [cookies, setCookie, removeCookie] = useCookies([
+        "user_ticket",
+        "token_ticket",
+    ]);
     const [formData, setFormData] = useState({
         status: "not started",
         progress: 0,
         category: "New Category",
         timestamp: new Date().toISOString(),
-        avatar: "",
+        avatar: cookies.user_ticket?.avatar,
         description: "",
-        owner: "",
+        owner: cookies.user_ticket?.name,
         priority: 1,
         title: "",
     });

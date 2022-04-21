@@ -4,12 +4,15 @@ const app = express();
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 app.use(cors());
 app.use(express.json());
 
 const token = process.env.TOKEN;
 const url = process.env.URL;
+const url_login = process.env.URLLOGIN;
 
 app.post("/tickets", async (req, res) => {
     const formData = req.body.formData;
@@ -30,7 +33,6 @@ app.post("/tickets", async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //create get request
 app.get("/tickets", async (req, res) => {
@@ -69,8 +71,6 @@ app.get("/tickets/:id", async (req, res) => {
     }
 });
 
-
-
 //create delete request
 app.delete("/tickets/:documentId", async (req, res) => {
     const documentId = req.params.documentId;
@@ -80,7 +80,7 @@ app.delete("/tickets/:documentId", async (req, res) => {
             Accept: "application/json",
             "X-Cassandra-Token": token,
         },
-    }; 
+    };
     console.log(documentId);
 
     try {
@@ -111,7 +111,66 @@ app.put("/tickets/:documentId", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
+});
 
+app.post("/login", async (req, res) => {
+    const data = {
+        email: req.body.email,
+        password: req.body.password,
+    };
+
+    console.log(data);
+
+    const options = {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "X-Cassandra-Token": token,
+        },
+    };
+
+    try {
+        const response = await axios(`${url_login}`, options);
+
+        Object.keys(response.data.data).forEach((key) => {
+            let email = response.data.data[key].email;
+            let password = response.data.data[key].password;
+
+            if (email === data.email && password === data.password) {
+                let name = response.data.data[key].name;
+                let uid = response.data.data[key].uid;
+                let avatar = response.data.data[key].avatar;
+                
+                const session = jwt.sign(
+                    {
+                        email,
+                        password
+                    },
+                    "secret",
+                    {
+                        expiresIn: "1h",
+                    }
+                );
+
+                const info = {
+                    session,
+                    user:{
+                        name,
+                        uid,
+                        avatar,
+                    }
+                }
+
+                
+
+                res.status(201).json( {info});
+
+
+            }
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 });
 
 app.listen(Port, () => {
